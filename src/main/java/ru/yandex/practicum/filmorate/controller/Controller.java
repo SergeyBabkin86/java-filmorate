@@ -24,13 +24,13 @@ public abstract class Controller {
     public Model addModel(Model model) {
         model.setId(generateId());
         dataMap.put(model.getId(), model);
-        log.info("Добавлен новый: {}", model);
+        log.info("Добавлен новый: {}.", model);
         return model;
     }
 
     public Model updateModel(Model model) throws IOException {
         if (!dataMap.containsKey(model.getId())) {
-            log.info("Пользователя с {} не существует", model);
+            log.info("Пользователя с {} не существует.", model);
             throw new IOException();
         } else {
             dataMap.replace(model.getId(), model);
