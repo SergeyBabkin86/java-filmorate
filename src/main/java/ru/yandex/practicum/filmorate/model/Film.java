@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Builder
 @Data
-public class Film implements Model {
+public class Film {
     private int id;
     @NotNull
     private String name;

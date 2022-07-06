@@ -8,7 +8,7 @@ import java.time.LocalDate;
 
 @Builder
 @Data
-public class User implements Model {
+public class User {
     private int id;
     @NotNull
     private String email;
