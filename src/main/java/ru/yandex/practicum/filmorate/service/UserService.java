@@ -9,6 +9,7 @@ import ru.yandex.practicum.filmorate.validator.UserValidator;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -22,18 +23,18 @@ public class UserService {
     }
 
     public User addUser(User user) {
-        UserValidator.validateUser(user); // Throw UserNotFoundException.
+        UserValidator.validateUser(user);
         user.setId(generateUserId());
         inMemoryUserStorage.addUser(user);
-        log.trace("Добавлен новый пользователь с id: {}.", user.getId());
+        log.debug("Добавлен новый пользователь с id: {}.", user.getId());
         return user;
     }
 
     public User updateUser(User user) {
-        UserValidator.validateUser(user); // Throw UserNotFoundException.
-        getUser(user.getId()); // Throw UserNotFoundException.
+        UserValidator.validateUser(user);
+        getUser(user.getId());
         inMemoryUserStorage.updateUser(user);
-        log.trace("Информация о пользователе с id: {} обновлена.", user.getId());
+        log.debug("Информация о пользователе с id: {} обновлена.", user.getId());
         return user;
     }
 
@@ -50,38 +51,35 @@ public class UserService {
         return inMemoryUserStorage.getUsers();
     }
 
-    public String addFriend(long userId, long friendId) {
-        var user = getUser(userId); // Throw UserNotFoundException if absent.
-        var friend = getUser(friendId); // Throw UserNotFoundException if absent.
-        user.getFriendsIdSet().add(friendId);
-        log.trace("Пользователь c id: {} добавил нового друга с id: {}", userId, friendId);
-        friend.getFriendsIdSet().add(userId);
-        log.trace("Пользователю c id: {} добавлен новый друг с id: {}", friendId, userId);
-        return String.format("Пользователи c id: %s и %s теперь друзья.", userId, friendId);
+    public boolean addFriend(long userId, long friendId) {
+        if (userId == friendId) {
+            throw new RuntimeException("Невозможно добавить в друзья самого себя.");
+        }
+        var isFriendAdded = getUser(userId).getFriendsIdSet().add(getUser(friendId).getId());
+        var isUserAdded = getUser(friendId).getFriendsIdSet().add(userId);
+        if (!isFriendAdded && !isUserAdded) {
+            throw new RuntimeException(String.format("Пользователи c id: %s и %s уже друзья.", userId, friendId));
+        }
+        log.debug("Пользователи c id: {} и {} теперь друзья.", userId, friendId);
+        return true;
     }
 
-    public String deleteFriend(long userId, long friendId) {
-        var user = getUser(userId); // Throw UserNotFoundException if absent.
-        var friend = getUser(friendId); // Throw UserNotFoundException if absent.
-        user.getFriendsIdSet().remove(friendId);
-        log.trace("Пользователь c id: {} удалил друга с id: {}", userId, friendId);
-        friend.getFriendsIdSet().remove(userId);
-        log.trace("У пользователя c id: {} удален друг с id: {}", friendId, userId);
-        return String.format("Пользователи c id: %s и %s больше не друзья.", userId, friendId);
+    public boolean deleteFriend(long userId, long friendId) {
+        if (userId == friendId) {
+            throw new RuntimeException("Невозможно удалить из друзей самого себя.");
+        }
+        var isFriendRemoved = getUser(userId).getFriendsIdSet().remove(getUser(friendId).getId());
+        var isUserRemoved = getUser(friendId).getFriendsIdSet().remove(userId);
+        if (!isFriendRemoved && !isUserRemoved) {
+            throw new RuntimeException(String.format("Пользователи c id: %s и %s не друзья.", userId, friendId));
+        }
+        log.debug("Пользователи c id: {} и {} больше не друзья.", userId, friendId);
+        return true;
     }
 
     public Set<User> getFriends(long userId) {
-        Set<User> friendsSet = new HashSet<>();
-        var friendsIdSet = getUser(userId).getFriendsIdSet(); // Throw UserNotFoundException if absent.
-
-        if (friendsIdSet.isEmpty()) {
-            log.info("У пользователя c id: {} нет друзей =(.", userId);
-        } else {
-            for (Long friendId : friendsIdSet) {
-                friendsSet.add(getUser(friendId));
-            }
-        }
-        return friendsSet;
+        var friendsIdSet = getUser(userId).getFriendsIdSet();
+        return friendsIdSet.stream().map(this::getUser).collect(Collectors.toCollection(HashSet::new));
     }
 
     public Set<User> getCommonFriends(long userId, Long otherId) {

@@ -8,7 +8,6 @@ import ru.yandex.practicum.filmorate.service.FilmService;
 import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 import java.util.Set;
 
@@ -30,7 +29,7 @@ public class FilmController {
     }
 
     @PutMapping()
-    public Film updateFilm(@Valid @RequestBody Film film) throws IOException {
+    public Film updateFilm(@Valid @RequestBody Film film) {
         return filmService.updateFilm(film);
     }
 
@@ -45,12 +44,12 @@ public class FilmController {
     }
 
     @PutMapping("/{id}/like/{userId}")
-    public String addLike(@PathVariable String id, @PathVariable String userId) {
+    public boolean addLike(@PathVariable String id, @PathVariable String userId) {
         return filmService.addLike(Long.parseLong(id), Long.parseLong(userId));
     }
 
     @DeleteMapping("/{id}/like/{userId}")
-    public String deleteLike(@PathVariable String id, @PathVariable String userId) {
+    public boolean deleteLike(@PathVariable String id, @PathVariable String userId) {
         return filmService.deleteLike(Long.parseLong(id), Long.parseLong(userId));
     }
 

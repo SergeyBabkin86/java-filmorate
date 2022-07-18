@@ -29,15 +29,15 @@ public class FilmService {
         FilmValidator.validateFilm(film);
         film.setId(generateFilmId());
         inMemoryFilmStorage.addFilm(film);
-        log.trace("Добавлен новый пользователь с id: {}.", film.getId());
+        log.debug("Добавлен новый пользователь с id: {}.", film.getId());
         return film;
     }
 
     public Film updateFilm(Film film) {
         FilmValidator.validateFilm(film);
-        getFilm(film.getId()); // Throw FilmNotFoundException if absent.
+        getFilm(film.getId());
         inMemoryFilmStorage.updateFilm(film);
-        log.trace("Информация о фильме с id: {} обновлена.", film.getId());
+        log.debug("Информация о фильме с id: {} обновлена.", film.getId());
         return film;
     }
 
@@ -53,23 +53,26 @@ public class FilmService {
                 .orElseThrow(() -> new FilmNotFoundException((String.format("Фильм с id: %s не найден.", filmId))));
     }
 
-    public String addLike(Long filmId, Long userId) {
-        var film = getFilm(filmId); // Throw FilmNotFoundException if absent.
-        var user = userService.getUser(userId); // Throw UserNotFoundException if absent.
-        film.getLikes().add(user.getId());
-        log.trace("Пользователь c id: {} поставил лайк фильму с id: {}", user.getId(), film.getId());
-        return String.format("Всего лайков у фильма c id: %s : %s.", filmId, film.getLikes().size());
+    public boolean addLike(Long filmId, Long userId) {
+        var isLikeAdded = getFilm(filmId).getLikes().add(userService.getUser(userId).getId());
+        if (!isLikeAdded) {
+            throw new RuntimeException(String.format("Пользователь c id: %s уже ставил лайк фильму с id: %s.",
+                    userId,
+                    filmId));
+        }
+        log.debug("Пользователь c id: {} поставил лайк фильму с id: {}", userId, filmId);
+        return true;
     }
 
-    public String deleteLike(Long filmId, Long userId) {
-        var film = getFilm(filmId); // Throw FilmNotFoundException if absent.
-        var user = userService.getUser(userId); // Throw UserNotFoundException if absent.
-        if (!film.getLikes().remove(user.getId())) {
+    public boolean deleteLike(Long filmId, Long userId) {
+        var isLikeDeleted = getFilm(filmId).getLikes().remove(userService.getUser(userId).getId());
+        if (!isLikeDeleted) {
             throw new RuntimeException(String.format("Пользователь с id: %s не ставил лайк фильму с id: %s",
-                    user.getId(), film.getId()));
+                    userId, filmId));
         }
-        return String.format("Пользователь с id: %s удалил свой лайк фильму с id: %s",
-                user.getId(), film.getId());
+        log.debug("Пользователь с id: {} удалил свой лайк фильму с id: {}.",
+                userId, filmId);
+        return true;
     }
 
     public List<Film> getPopular(int count) {
