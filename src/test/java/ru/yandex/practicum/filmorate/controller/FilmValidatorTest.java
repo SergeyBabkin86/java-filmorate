@@ -4,7 +4,8 @@ import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -19,7 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = FilmController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 public class FilmValidatorTest {
     @Autowired
     private MockMvc mockMvc;
@@ -61,7 +63,7 @@ public class FilmValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/films")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testFilm)))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains(expectedMessage));
@@ -74,7 +76,7 @@ public class FilmValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/films")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testFilm)))
-                .andExpect(status().is4xxClientError()).andReturn();
+                .andExpect(status().is5xxServerError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains("default message [name]]"));
@@ -97,7 +99,7 @@ public class FilmValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/films")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testFilm)))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains(expectedMessage));
@@ -115,7 +117,7 @@ public class FilmValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/films")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testFilm)))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains(expectedMessage));
@@ -132,7 +134,7 @@ public class FilmValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/films")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testFilm)))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains(expectedMessage));
@@ -169,7 +171,7 @@ public class FilmValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.put("/films")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testFilm)))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains(expectedMessage));
@@ -182,7 +184,7 @@ public class FilmValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.put("/films")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testFilm)))
-                .andExpect(status().is4xxClientError()).andReturn();
+                .andExpect(status().is5xxServerError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains("default message [name]]"));
@@ -205,7 +207,7 @@ public class FilmValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/films")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testFilm)))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains(expectedMessage));
@@ -223,7 +225,7 @@ public class FilmValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/films")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testFilm)))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains(expectedMessage));
@@ -240,7 +242,7 @@ public class FilmValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/films")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testFilm)))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains(expectedMessage));

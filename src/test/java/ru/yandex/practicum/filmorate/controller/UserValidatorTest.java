@@ -4,7 +4,8 @@ import com.google.gson.Gson;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -19,7 +20,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(controllers = UserController.class)
+@SpringBootTest
+@AutoConfigureMockMvc
 class UserValidatorTest {
     @Autowired
     private MockMvc mockMvc;
@@ -61,7 +63,7 @@ class UserValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testUser)))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains(expectedMessage));
@@ -74,7 +76,7 @@ class UserValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testUser)))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains("default message [email]]"));
@@ -89,7 +91,7 @@ class UserValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testUser)))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains(expectedMessage));
@@ -103,7 +105,7 @@ class UserValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testUser)))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains("default message [login]]"));
@@ -118,7 +120,7 @@ class UserValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testUser)))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains(expectedMessage));
@@ -132,7 +134,7 @@ class UserValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testUser)))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains(expectedMessage));
@@ -147,7 +149,7 @@ class UserValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testUser)))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains(expectedMessage));
@@ -184,7 +186,7 @@ class UserValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.put("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testUser)))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains(expectedMessage));
@@ -197,7 +199,7 @@ class UserValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.put("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testUser)))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains("default message [email]]"));
@@ -212,7 +214,7 @@ class UserValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.put("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testUser)))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains(expectedMessage));
@@ -226,7 +228,7 @@ class UserValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.put("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testUser)))
-                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains("default message [login]]"));
@@ -241,7 +243,7 @@ class UserValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.put("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testUser)))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains(expectedMessage));
@@ -255,7 +257,7 @@ class UserValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.put("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testUser)))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains(expectedMessage));
@@ -270,7 +272,7 @@ class UserValidatorTest {
         var response = mockMvc.perform(MockMvcRequestBuilders.put("/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(gson.toJson(testUser)))
-                .andExpect(MockMvcResultMatchers.status().is5xxServerError()).andReturn();
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains(expectedMessage));
@@ -280,7 +282,7 @@ class UserValidatorTest {
         return User.builder()
                 .id(1)
                 .email("updmail@email.ru")
-                .login("updlogin")
+                .login("updatedLogin")
                 .name("Olga")
                 .birthday(LocalDate.of(1991, 7, 5))
                 .build();
