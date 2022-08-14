@@ -1,8 +1,9 @@
-package ru.yandex.practicum.filmorate.storage;
+package ru.yandex.practicum.filmorate.storage.inMemoryStorage;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.User;
+import ru.yandex.practicum.filmorate.storage.dao.interfaces.UserStorage;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -10,10 +11,15 @@ import java.util.Map;
 import java.util.Set;
 
 @Slf4j
-@Component
+@Component ("inMemoryUserStorage")
 public class InMemoryUserStorage implements UserStorage {
 
     protected final Map<Long, User> usersDataMap = new HashMap<>();
+
+    @Override
+    public User getUser(long id) {
+        return null;
+    }
 
     @Override
     public User addUser(User user) {

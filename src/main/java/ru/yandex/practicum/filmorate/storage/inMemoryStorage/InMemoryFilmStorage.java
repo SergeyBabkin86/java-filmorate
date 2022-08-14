@@ -1,7 +1,8 @@
-package ru.yandex.practicum.filmorate.storage;
+package ru.yandex.practicum.filmorate.storage.inMemoryStorage;
 
 import org.springframework.stereotype.Component;
 import ru.yandex.practicum.filmorate.model.Film;
+import ru.yandex.practicum.filmorate.storage.dao.interfaces.FilmStorage;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -12,6 +13,11 @@ import java.util.Set;
 public class InMemoryFilmStorage implements FilmStorage {
 
     protected final Map<Long, Film> filmsDataMap = new HashMap<>();
+
+    @Override
+    public Film getFilm(long filmId) {
+        return null;
+    }
 
     @Override
     public Film addFilm(Film film) {
