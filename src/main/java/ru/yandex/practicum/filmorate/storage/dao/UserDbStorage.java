@@ -17,7 +17,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 
 
-@Repository("userDbStorage")
+@Repository
 @Qualifier
 @Slf4j
 public class UserDbStorage implements UserStorage {

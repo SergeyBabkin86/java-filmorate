@@ -3,7 +3,7 @@ package ru.yandex.practicum.filmorate.storage.dao;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import ru.yandex.practicum.filmorate.exception.ObjectNotFoundException;
+import ru.yandex.practicum.filmorate.exception.EntityNotFoundException;
 import ru.yandex.practicum.filmorate.model.MPA;
 import ru.yandex.practicum.filmorate.storage.dao.interfaces.MpaStorage;
 import ru.yandex.practicum.filmorate.utilites.rowMappers.MPARowMapper;
@@ -23,7 +23,7 @@ public class MpaDbStorage implements MpaStorage {
     public MPA getMpa(long mpaId) {
         var sqlQuery = "SELECT * FROM MPA WHERE MPA_ID = ?";
         if (!jdbcTemplate.queryForRowSet(sqlQuery, mpaId).next()) {
-            throw new ObjectNotFoundException(String.format("MPA с id: %s не существует", mpaId));
+            throw new EntityNotFoundException(String.format("MPA с id: %s не существует", mpaId));
         }
         return jdbcTemplate.queryForObject(sqlQuery, new MPARowMapper(), mpaId);
     }

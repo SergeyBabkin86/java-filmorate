@@ -19,7 +19,7 @@ import java.time.LocalDate;
 import java.util.Collection;
 import java.util.HashSet;
 
-@Repository("filmDbStorage")
+@Repository
 @Qualifier
 @Slf4j
 public class FilmDbStorage implements FilmStorage {

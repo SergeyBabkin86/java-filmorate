@@ -4,7 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import ru.yandex.practicum.filmorate.exception.ObjectNotFoundException;
+import ru.yandex.practicum.filmorate.exception.EntityNotFoundException;
 import ru.yandex.practicum.filmorate.model.Genre;
 import ru.yandex.practicum.filmorate.storage.dao.interfaces.GenreStorage;
 import ru.yandex.practicum.filmorate.utilites.rowMappers.GenreRowMapper;
@@ -25,7 +25,7 @@ public class GenreDbStorage implements GenreStorage {
     public Genre getGenre(long genreId) {
         var sqlQuery = "SELECT * FROM GENRES WHERE GENRE_ID = ?";
         if (!jdbcTemplate.queryForRowSet(sqlQuery, genreId).next()) {
-            throw new ObjectNotFoundException(String.format("Жанра с id: %s не существует", genreId));
+            throw new EntityNotFoundException(String.format("Жанра с id: %s не существует", genreId));
         }
         return jdbcTemplate.queryForObject(sqlQuery, new GenreRowMapper(), genreId);
     }

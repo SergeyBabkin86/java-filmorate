@@ -12,7 +12,7 @@ import java.util.Collection;
 
 import static java.lang.String.*;
 
-@Repository("friendsDbStorage")
+@Repository
 @Slf4j
 public class FriendDbStorage implements FriendStorage {
     private final JdbcTemplate jdbcTemplate;
