@@ -5,11 +5,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.yandex.practicum.filmorate.model.Film;
 import ru.yandex.practicum.filmorate.service.FilmService;
-import ru.yandex.practicum.filmorate.storage.InMemoryFilmStorage;
+import ru.yandex.practicum.filmorate.storage.inMemoryStorage.InMemoryFilmStorage;
 
 import javax.validation.Valid;
+import java.util.Collection;
 import java.util.List;
-import java.util.Set;
 
 @Slf4j
 @RestController
@@ -34,7 +34,7 @@ public class FilmController {
     }
 
     @GetMapping()
-    public Set<Film> getFilms() {
+    public Collection<Film> getFilms() {
         return filmService.getFilms();
     }
 
@@ -54,7 +54,7 @@ public class FilmController {
     }
 
     @GetMapping("/popular")
-    public List<Film> getPopular(
+    public Collection<Film> getPopular(
             @RequestParam(value = "count", defaultValue = "10", required = false) Integer count) {
         return filmService.getPopular(count);
     }

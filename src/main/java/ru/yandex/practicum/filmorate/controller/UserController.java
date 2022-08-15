@@ -8,6 +8,7 @@ import ru.yandex.practicum.filmorate.service.UserService;
 
 import javax.validation.Valid;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.Set;
 
 @Slf4j
@@ -33,12 +34,13 @@ public class UserController {
     }
 
     @GetMapping()
-    public Set<User> getUsers() {
+    public Collection<User> getUsers() {
         return userService.getUsers();
     }
 
     @GetMapping("/{id}")
     public User getUser(@PathVariable String id) {
+        //return userService.getUser(Long.parseLong(id));
         return userService.getUser(Long.parseLong(id));
     }
 
@@ -53,12 +55,12 @@ public class UserController {
     }
 
     @GetMapping("/{id}/friends")
-    public Set<User> getFriends(@PathVariable String id) {
+    public Collection<User> getFriends(@PathVariable String id) {
         return userService.getFriends(Long.parseLong(id));
     }
 
     @GetMapping("/{id}/friends/common/{otherId}")
-    public Set<User> getFriends(@PathVariable String id, @PathVariable String otherId) {
+    public Collection<User> getFriends(@PathVariable String id, @PathVariable String otherId) {
         return userService.getCommonFriends(Long.parseLong(id), Long.parseLong(otherId));
     }
 }

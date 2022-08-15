@@ -16,7 +16,6 @@ import ru.yandex.practicum.filmorate.utilites.AdaptedGson;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -40,20 +39,6 @@ public class FilmValidatorTest {
     }
 
     // 1. Case POST
-    // 1.0. Post film with valid parameters
-    @Test
-    public void addFilmWithCorrectParametersTest() throws Exception {
-        var mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/films")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(testFilm)))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        Film returnedFilm = gson.fromJson(mvcResult.getResponse().getContentAsString(), Film.class);
-
-        assertEquals(testFilm, returnedFilm);
-    }
-
     // 1.1 Post film with invalid name cases
     @Test
     public void addNewFilmWithBlankNameTest() throws Exception {
@@ -61,8 +46,8 @@ public class FilmValidatorTest {
         var expectedMessage = "Не указано название фильма.";
 
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/films")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(testFilm)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(gson.toJson(testFilm)))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
@@ -74,8 +59,8 @@ public class FilmValidatorTest {
         testFilm.setName(null);
 
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/films")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(testFilm)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(gson.toJson(testFilm)))
                 .andExpect(status().is5xxServerError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
@@ -97,8 +82,8 @@ public class FilmValidatorTest {
         testFilm.setDescription(filmName);
 
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/films")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(testFilm)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(gson.toJson(testFilm)))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
@@ -115,8 +100,8 @@ public class FilmValidatorTest {
         testFilm.setReleaseDate(LocalDate.of(1893, 12, 28));
 
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/films")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(testFilm)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(gson.toJson(testFilm)))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
@@ -132,8 +117,8 @@ public class FilmValidatorTest {
         testFilm.setDuration(-10);
 
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/films")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(testFilm)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(gson.toJson(testFilm)))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
@@ -141,27 +126,6 @@ public class FilmValidatorTest {
     }
 
     // 2. Case PUT
-    // 2.0. Put film with valid parameters
-    @Test
-    public void updateFilmWithCorrectParametersTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/films")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(testFilm)))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        var updTestFilm = generateSecondTestFilm();
-        var mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/films")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(updTestFilm)))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        var returnedFilm = gson.fromJson(mvcResult.getResponse().getContentAsString(), Film.class);
-
-        assertEquals(updTestFilm, returnedFilm);
-    }
-
     // 2.1 Put film with invalid name cases
     @Test
     public void updateNewFilmWithBlankNameTest() throws Exception {
@@ -169,8 +133,8 @@ public class FilmValidatorTest {
         var expectedMessage = "Не указано название фильма.";
 
         var response = mockMvc.perform(MockMvcRequestBuilders.put("/films")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(testFilm)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(gson.toJson(testFilm)))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
@@ -182,8 +146,8 @@ public class FilmValidatorTest {
         testFilm.setName(null);
 
         var response = mockMvc.perform(MockMvcRequestBuilders.put("/films")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(testFilm)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(gson.toJson(testFilm)))
                 .andExpect(status().is5xxServerError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
@@ -205,8 +169,8 @@ public class FilmValidatorTest {
         testFilm.setDescription(filmName);
 
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/films")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(testFilm)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(gson.toJson(testFilm)))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
@@ -223,8 +187,8 @@ public class FilmValidatorTest {
         testFilm.setReleaseDate(LocalDate.of(1893, 12, 28));
 
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/films")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(testFilm)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(gson.toJson(testFilm)))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
@@ -240,21 +204,11 @@ public class FilmValidatorTest {
         testFilm.setDuration(-10);
 
         var response = mockMvc.perform(MockMvcRequestBuilders.post("/films")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(testFilm)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(gson.toJson(testFilm)))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError()).andReturn();
         var message = Objects.requireNonNull(response.getResolvedException()).getMessage();
 
         assertTrue(message.contains(expectedMessage));
-    }
-
-    public static Film generateSecondTestFilm() {
-        return Film.builder()
-                .id(1)
-                .name("Cruiser 'Varyag'")
-                .description("Soviet war film directed by Viktor Eisymont.")
-                .releaseDate(LocalDate.of(1946, 1, 1))
-                .duration(92)
-                .build();
     }
 }

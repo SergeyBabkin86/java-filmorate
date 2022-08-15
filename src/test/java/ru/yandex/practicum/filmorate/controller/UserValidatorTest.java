@@ -40,20 +40,6 @@ class UserValidatorTest {
     }
 
     // 1. Case POST
-    // 1.0. Post user with valid parameters
-    @Test
-    public void addUserWithCorrectParametersTest() throws Exception {
-        var mvcResult = mockMvc.perform(MockMvcRequestBuilders.post("/users")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(testUser)))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        User returnedUser = gson.fromJson(mvcResult.getResponse().getContentAsString(), User.class);
-
-        assertEquals(testUser, returnedUser);
-    }
-
     // 1.1. Post user with invalid email cases
     @Test
     public void addUserWithBlankEmailTest() throws Exception {
@@ -156,27 +142,6 @@ class UserValidatorTest {
     }
 
     // 2. Case PUT
-    // 2.0. Put user with valid parameters
-    @Test
-    public void updateUserWithCorrectParametersTest() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.post("/users")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(testUser)))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        var updTestUser = generateSecondTestUser();
-        var mvcResult = mockMvc.perform(MockMvcRequestBuilders.put("/users")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(gson.toJson(updTestUser)))
-                .andExpect(status().isOk())
-                .andReturn();
-
-        var returnedUser = gson.fromJson(mvcResult.getResponse().getContentAsString(), User.class);
-
-        assertEquals(updTestUser, returnedUser);
-    }
-
     // 2.1. Put user with invalid email cases
     @Test
     public void updateUserWithBlankEmailTest() throws Exception {

@@ -2,11 +2,10 @@ package ru.yandex.practicum.filmorate.model;
 
 import lombok.Builder;
 import lombok.Data;
-import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PastOrPresent;
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 @Builder
@@ -18,7 +17,8 @@ public class Film {
     private String description;
     @PastOrPresent(message = "Дата релиза фильма не может быть в будущем.")
     private LocalDate releaseDate;
-    private long duration;
-
-    private final Set<Long> likes = new HashSet<>();
+    private int duration;
+    private int rate;
+    private MPA mpa;
+    private Set<Genre> genres;
 }
